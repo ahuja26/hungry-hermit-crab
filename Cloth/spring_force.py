@@ -4,14 +4,14 @@ from OpenGL.GL import *
 from particle import ParticleClass
 
 class Spring():
-    def __init__(self, p1, p2, len, ks, kd):
+    def __init__(self, p1, p2, ks, kd):
         """
         :type p1: ParticleClass
         :type p2: ParticleClass
         """
         self.p1=p1
         self.p2=p2
-        self.len=len
+        self.len=p1.pos-p2.pos
         self.ks=ks
         self.kd=kd
 
