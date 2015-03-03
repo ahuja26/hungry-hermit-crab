@@ -7,6 +7,8 @@ import numpy as np
 class ParticleClass():
     def __init__(self, pos, mass):
         self.pos=np.array(pos)
+        #just initialized to same
+        self.prevpos=np.array(pos)
         #self.vel=[0,0,0]
         self.force=np.array([0,0,0])
         self.acc=np.array([0,0,0])

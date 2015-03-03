@@ -12,12 +12,16 @@ from particle import ParticleClass
 class TestWidget(QGLWidget):
     def __init__(self, parent=None):
         super(TestWidget, self).__init__(parent)
-        self.myCloth = ClothSim(100,10,2.0)
+        self.t=0.0
+        self.dt=1.0/10
+        self.myCloth = ClothSim(100,10,2.0,self.dt)
 
     def paintGL(self):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         #glRectf(-5, -5, 5, 5)
         self.myCloth.draw()
+        self.myCloth.simulation_step()
+        self.t+=self.dt
 
 
     def resizeGL(self, w, h):
@@ -34,8 +38,6 @@ class TestWidget(QGLWidget):
         glClearColor(0.0, 0.0, 0.0, 1.0)
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
-        # only initializing, find a better place for this :/
-
 
 
 

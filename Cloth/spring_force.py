@@ -3,6 +3,8 @@ __author__ = 'rachinaaahuja'
 from OpenGL.GL import *
 from particle import ParticleClass
 
+import numpy as np
+
 class Spring():
     def __init__(self, p1, p2, ks, kd):
         """
@@ -11,7 +13,7 @@ class Spring():
         """
         self.p1=p1
         self.p2=p2
-        self.len=p1.pos-p2.pos
+        self.len=np.linalg.norm(p1.pos-p2.pos)
         self.ks=ks
         self.kd=kd
 

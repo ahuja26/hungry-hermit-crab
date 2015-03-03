@@ -7,7 +7,7 @@ from spring_force import Spring
 
 
 class ClothSim():
-    def __init__(self, w, num, m):
+    def __init__(self, w, num, m, dt):
         # set up cloth
         self.w = w
         #number of particles in a row
@@ -15,6 +15,7 @@ class ClothSim():
         self.particles = []
         self.forces = []
         self.createLayout(w, num, m)
+        self.dt=dt
 
     def createLayout(self, w, num, m):
         # draw grid of particles
@@ -58,5 +59,19 @@ class ClothSim():
                 particle.force+=particle.mass*np.array([0,9.8,0])
         #spring forces
         for spr in self.forces:
-            f1=-(spr.ks(spr.p1.pos-spr.p2.pos-spr.len))
+            f1=-(spr.ks(np.linalg.norm(spr.p1.pos-spr.p2.pos)-spr.len))*((spr.p1.pos-spr.p2.pos)/np.linalg.norm((spr.p1.pos-spr.p2.pos)))
+            f2=-f1
+            spr.p1.force+=f1
+            spr.p2.force+=f2
         #integration step
+        self.verlets()
+
+    def verlets(self):
+        for row in self.particles:
+            for particle in row:
+                assert isinstance(particle, object)
+                particle.acc=particle.force/particle.mass
+                xprev=particle.prevpos
+                xcurr=particle.pos
+                xnext=(2*xcurr)-xprev+particle.acc*(dt*dt)
+                particle.pos=xnext
