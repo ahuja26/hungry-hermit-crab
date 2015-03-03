@@ -15,6 +15,7 @@ class ParticleClass():
         assert isinstance(mass, float)
         self.mass=mass
 
+
     def draw(self):
         glColor3f(0.6,0,0)
         glBegin(GL_QUADS)
@@ -51,7 +52,7 @@ class ParticleClass():
         glEnd()
 
     def clear_force(self):
-        self.force=[0,0,0]
+        self.force=np.array([0,0,0])
 
     def set_pos(self, pos):
         self.pos=pos

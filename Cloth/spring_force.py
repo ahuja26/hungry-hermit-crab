@@ -13,7 +13,7 @@ class Spring():
         """
         self.p1=p1
         self.p2=p2
-        self.len=np.linalg.norm(p1.pos-p2.pos)
+        self.rest_len=np.linalg.norm(p1.pos-p2.pos)
         self.ks=ks
         self.kd=kd
 
