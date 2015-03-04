@@ -13,8 +13,8 @@ class TestWidget(QGLWidget):
     def __init__(self, parent=None):
         super(TestWidget, self).__init__(parent)
         self.t = 0.0
-        self.dt = 1.0 / 50
-        self.myCloth = ClothSim(100, 10, 1.0, self.dt)
+        self.dt = 1.0 / 10
+        self.myCloth = ClothSim(100, 10, 0.5, self.dt)
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.draw_stuff)
         self.timer.start(100)

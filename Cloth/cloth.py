@@ -29,13 +29,13 @@ class ClothSim():
         for i in range(0, num):
             for j in range(0, num):
                 if j < num - 1:
-                    self.forces.append(Spring(self.particles[i][j], self.particles[i][j + 1], 20.0, 1.0))
+                    self.forces.append(Spring(self.particles[i][j], self.particles[i][j + 1], 1.0, 2.0))
                 if i < num - 1 and j < num - 1:
-                    self.forces.append(Spring(self.particles[i][j], self.particles[i + 1][j + 1], 20.0, 1.0))
+                    self.forces.append(Spring(self.particles[i][j], self.particles[i + 1][j + 1], 1.0, 2.0))
                 if i < num - 1:
-                    self.forces.append(Spring(self.particles[i][j], self.particles[i + 1][j], 20.0, 1.0))
+                    self.forces.append(Spring(self.particles[i][j], self.particles[i + 1][j], 1.0, 2.0))
                 if i < num - 1 and j > 0:
-                    self.forces.append(Spring(self.particles[i][j], self.particles[i + 1][j - 1], 20.0, 1.0))
+                    self.forces.append(Spring(self.particles[i][j], self.particles[i + 1][j - 1], 1.0, 2.0))
 
     def draw(self):
         for row in self.particles:
@@ -56,11 +56,11 @@ class ClothSim():
         for row in self.particles:
             for particle in row:
                 assert isinstance(particle, object)
-                particle.force += particle.mass * np.array([0, -9.8, 0])
+                particle.force += particle.mass * np.array([0, -4.8, 0])
 
         #spring forces
         for spr in self.forces:
-            f1 = -((spr.ks * (np.linalg.norm(spr.p1.pos - spr.p2.pos) - spr.rest_len)) * (
+            f1 = -((spr.ks * (np.linalg.norm(spr.p1.pos - spr.p2.pos) - spr.rest_len) +spr.kd*(spr.p1.vel-spr.p2.vel)*(spr.p1.pos-spr.p2.pos)/np.linalg.norm(spr.p1.pos-spr.p2.pos)) * (
                 (spr.p1.pos - spr.p2.pos) / np.linalg.norm((spr.p1.pos - spr.p2.pos))))
             spr.p1.force += f1
             spr.p2.force -= f1
@@ -80,6 +80,7 @@ class ClothSim():
                 xnext = (2 * xcurr) - xprev + particle.acc * (self.dt * self.dt)
                 particle.prevpos=particle.pos
                 particle.pos=xnext
+                particle.vel=(xnext-xcurr)/self.dt
 
                 #self.particles[0][0].pos=self.particles[0][0].prevpos
                 #self.particles[0][self.num-1].pos=self.particles[0][self.num-1].prevpos
