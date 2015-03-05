@@ -19,9 +19,7 @@ class Spring():
 
     def draw(self):
         glBegin(GL_LINES)
-        glColor3f(0,1,0)
+        glColor3f(0.1, 0.7, 0.6)
         glVertex3f(self.p1.pos[0],self.p1.pos[1],self.p1.pos[2])
         glVertex3f(self.p2.pos[0],self.p2.pos[1],self.p2.pos[2])
         glEnd()
-
-    #method to apply the force

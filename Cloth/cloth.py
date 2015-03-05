@@ -65,6 +65,9 @@ class ClothSim():
             for particle in row:
                 assert isinstance(particle, object)
                 particle.force += particle.mass * np.array([0, -9.8, 0])
+                # optional: air resistance ---- DEFAULT IS COMMENTED OUT, ONLY WORKS WITH SEMI IMPLICIT
+                if np.linalg.norm(particle.pos) > 0:
+                    particle.force += -2.0 * np.linalg.norm(particle.vel) * particle.pos / np.linalg.norm(particle.pos)
 
         #spring forces
         for spr in self.forces:

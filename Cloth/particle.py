@@ -18,7 +18,7 @@ class ParticleClass():
 
 
     def draw(self):
-        glColor3f(0.6,0,0)
+        glColor3f(0.8, 0.2, 0.3)
         glBegin(GL_QUADS)
         #front
         glVertex3f(self.pos[0]-1,self.pos[1]-1,self.pos[2]+1)
@@ -54,11 +54,3 @@ class ParticleClass():
 
     def clear_force(self):
         self.force=np.array([0,0,0])
-
-    def set_pos(self, pos):
-        self.pos=pos
-
-    def set_acc(self, acc):
-        self.acc=acc
-
-#separate method to update and set positions
