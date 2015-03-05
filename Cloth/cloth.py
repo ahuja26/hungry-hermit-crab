@@ -31,9 +31,9 @@ class ClothSim():
             for j in range(0, num):
                 #structural springs
                 if j < num - 1:
-                    self.forces.append(Spring(self.particles[i][j], self.particles[i][j + 1], 10.0, 4.0))
+                    self.forces.append(Spring(self.particles[i][j], self.particles[i][j + 1], 10.0, 6.0))
                 if i < num - 1:
-                    self.forces.append(Spring(self.particles[i][j], self.particles[i + 1][j], 10.0, 4.0))
+                    self.forces.append(Spring(self.particles[i][j], self.particles[i + 1][j], 10.0, 6.0))
                 #shear springs
                 if i < num - 1 and j < num - 1:
                     self.forces.append(Spring(self.particles[i][j], self.particles[i + 1][j + 1], 10.0, 2.0))
@@ -41,9 +41,9 @@ class ClothSim():
                     self.forces.append(Spring(self.particles[i][j], self.particles[i + 1][j - 1], 10.0, 2.0))
                 #bend springs
                 if (i ==0 or i==(num-1)) and j < num - 2:
-                    self.forces.append(Spring(self.particles[i][j],self.particles[i][j+2], 4.0, 2.0))
+                    self.forces.append(Spring(self.particles[i][j],self.particles[i][j+2], 2.0, 1.0))
                 if i<num-2 and (j==0 or j==(num-1)):
-                    self.forces.append(Spring(self.particles[i][j],self.particles[i+2][j], 4.0, 2.0))
+                    self.forces.append(Spring(self.particles[i][j],self.particles[i+2][j], 2.0, 1.0))
 
     def draw(self):
         for row in self.particles:
@@ -53,7 +53,7 @@ class ClothSim():
         for spr in self.forces:
             spr.draw()
 
-    def simulation_step(self):
+    def simulation_step(self, integration):
         # clear forces
         for row in self.particles:
             for particle in row:
@@ -80,7 +80,13 @@ class ClothSim():
         self.particles[0][0].force += -(self.particles[0][0].force)
         self.particles[0][self.num - 1].force += -(self.particles[0][self.num - 1].force)
         #integration step
-        self.verlets()
+        if(integration==0):
+            self.euler()
+        if integration==1:
+            self.symplectic()
+        else:
+            self.verlets()
+
 
     def verlets(self):
 
@@ -93,8 +99,8 @@ class ClothSim():
                 xnext = (2 * xcurr) - xprev + particle.acc * (self.dt * self.dt)
                 particle.prevpos=particle.pos
                 particle.pos=xnext
-                #particle.vel=((np.linalg.norm(xnext)-np.linalg.norm(xcurr))*xnext/np.linalg.norm(xnext))/self.dt
-                particle.vel=(xnext-xcurr)/self.dt
+                particle.vel=((np.linalg.norm(xnext)-np.linalg.norm(xcurr))*xnext/np.linalg.norm(xnext))/self.dt
+                #particle.vel=(xnext-xcurr)/self.dt
 
     def euler(self):
         for row in self.particles:
@@ -102,10 +108,16 @@ class ClothSim():
                 assert isinstance(particle, object)
                 particle.acc=particle.force / particle.mass
                 vnext=particle.vel+particle.acc*self.dt
-                xnext=particle.pos+vnext*self.dt
+                xnext=particle.pos+particle.vel*self.dt
                 particle.vel=vnext
                 particle.pos=xnext
 
-
-
-
+    def symplectic(self):
+        for row in self.particles:
+            for particle in row:
+                assert isinstance(particle, object)
+                particle.acc=particle.force / particle.mass
+                vnext=particle.vel+self.dt*particle.acc
+                xnext=particle.pos+self.dt*vnext
+                particle.pos=xnext
+                particle.vel=vnext

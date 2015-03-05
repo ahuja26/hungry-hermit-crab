@@ -10,6 +10,7 @@ class ParticleClass():
         #just initialized to same
         self.prevpos=np.array(pos)
         self.vel=np.array([0,0,0])
+        self.prevvel=np.array([0,0,0])
         self.force=np.array([0,0,0])
         self.acc=np.array([0,0,0])
         assert isinstance(mass, float)
