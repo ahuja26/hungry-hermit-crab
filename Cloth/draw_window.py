@@ -8,13 +8,42 @@ from OpenGL.GLU import *
 
 from cloth import ClothSim
 
-
-class TestWidget(QGLWidget):
+import sys
+class Window(QWidget):
     def __init__(self, parent=None):
-        super(TestWidget, self).__init__(parent)
+        super(Window, self).__init__(parent)
+        self.gl_widget=GLWidget()
+        #create slider for mass
+        self.mass_slider=QSlider(QtCore.Qt.Horizontal)
+        self.mass_slider.setRange(0,10.0)
+        self.mass_slider.setSingleStep(0.2)
+        #create slider for ks
+        self.ks_slider=QSlider(QtCore.Qt.Horizontal)
+        self.ks_slider.setRange(0,10.0)
+        self.ks_slider.setSingleStep(0.2)
+        #create slider for kd
+        self.kd_slider=QSlider(QtCore.Qt.Horizontal)
+        self.kd_slider.setRange(0,10.0)
+        self.kd_slider.setSingleStep(0.2)
+        #create slider for dt?
+
+        #create layout
+        main_layout=QVBoxLayout()
+        main_layout.addWidget(self.gl_widget)
+        main_layout.addWidget(self.mass_slider)
+        main_layout.addWidget(self.ks_slider)
+        main_layout.addWidget(self.kd_slider)
+        self.setLayout(main_layout)
+
+
+class GLWidget(QGLWidget):
+    def __init__(self, parent=None):
+        super(GLWidget, self).__init__(parent)
+        self.setMinimumHeight(400)
+        self.setMinimumWidth(600)
         self.t = 0.0
-        self.dt = 1.0 / 10
-        self.myCloth = ClothSim(100, 10, 0.5, self.dt)
+        self.dt = 1.0/10
+        self.myCloth = ClothSim(100, 10, 2.0, self.dt)
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.draw_stuff)
         self.timer.start(100)
@@ -49,8 +78,8 @@ class TestWidget(QGLWidget):
 
 
 if __name__ == '__main__':
-    app = QApplication(["hi"])
-    widget = TestWidget()
-    widget.setWindowTitle("test window")
-    widget.show()
+    app = QApplication(sys.argv)
+    window = Window()
+    window.setWindowTitle("Mass Spring Cloth")
+    window.show()
     app.exec_()
