@@ -66,8 +66,8 @@ class ClothSim():
                 assert isinstance(particle, object)
                 particle.force += particle.mass * np.array([0, -9.8, 0])
                 # optional: air resistance ---- DEFAULT IS COMMENTED OUT, ONLY WORKS WITH SEMI IMPLICIT
-                if np.linalg.norm(particle.pos) > 0:
-                    particle.force += -2.0 * np.linalg.norm(particle.vel) * particle.pos / np.linalg.norm(particle.pos)
+                # if np.linalg.norm(particle.pos) > 0:
+                #particle.force += -2.0 * np.linalg.norm(particle.vel) * particle.pos / np.linalg.norm(particle.pos)
 
         #spring forces
         for spr in self.forces:
@@ -83,7 +83,7 @@ class ClothSim():
         self.particles[0][0].force += -(self.particles[0][0].force)
         self.particles[0][self.num - 1].force += -(self.particles[0][self.num - 1].force)
         #integration step
-        if(integration==0):
+        if integration == 0:
             self.euler()
         if integration==1:
             self.symplectic()
@@ -103,7 +103,6 @@ class ClothSim():
                 particle.prevpos=particle.pos
                 particle.pos=xnext
                 particle.vel=((np.linalg.norm(xnext)-np.linalg.norm(xcurr))*xnext/np.linalg.norm(xnext))/self.dt
-                #particle.vel=(xnext-xcurr)/self.dt
 
     def euler(self):
         for row in self.particles:

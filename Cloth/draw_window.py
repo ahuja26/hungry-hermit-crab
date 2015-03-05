@@ -19,11 +19,10 @@ class GLWidget(QGLWidget):
         self.t = 0.0
         self.dt = 1.0/10
         #arguments: width of cloth, number of particles per row, mass per particle, timestep
-        self.myCloth = ClothSim(100, 10, 2.0, self.dt)
+        self.myCloth = ClothSim(100, 10, 2.5, self.dt)
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.draw_stuff)
         #needs to be same as timestep, this determines how often simulation is called
-
         self.timer.start(100)
 
 
