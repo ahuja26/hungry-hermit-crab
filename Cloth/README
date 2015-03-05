@@ -1,0 +1,29 @@
+This folder contains 4 modules, all written in Python 2.7.9:
+draw_window.py : This is the one that should be run
+particle.py : Particle Class
+spring_force.py : Spring Force Class
+cloth.py : Cloth Simulation Class, has code for all the steps in the simulation, including integration methods
+
+Also contained demo videos:
+assignment2_1.m4v
+assignment2_2.m4v
+assignment2_3.m4v
+
+There is also a detailed report MiniProject2Report.pdf with explanations and observations.
+
+To run this, the following packages are needed:
+PyQt4, PyOpenGL and numpy
+
+These can all be installed either using homebrew or pip. Pip will not work for PyQt, which needs to be downloaded and compiled.
+Basically these final packages need to be installed in the correct Python version's 'site-packages' folder.
+
+To edit the code:
+Probably the only useful parts to tweak are in draw_window and cloth.
+In draw_window.py:
+1. self.myCloth = ClothSim(100, 10, 2.5, self.dt) can be edited to change the mass which is currently 2.5(see ClothSim class for parameters)
+2. self.myCloth.simulation_step(1) can be called with 0 for euler integration, 1 for semi implicit and 2 for verlet. Note: This exists in both paintGL() and draw_stuff() and both must be changed.
+
+In cloth.py:
+Where the spring forces are being added in createLayout(), the parameters can be changed to change ks and kd
+Eg here :
+self.forces.append(Spring(self.particles[i][j], self.particles[i][j + 1], 10.0, 6.0))

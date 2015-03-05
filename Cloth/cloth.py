@@ -26,7 +26,7 @@ class ClothSim():
                 pTemp.append(ParticleClass([x, 0, z], m))
             self.particles.append(pTemp)
 
-        # draw bottom right and left
+        # draw bottom right and left, create the spring forces
         for i in range(0, num):
             for j in range(0, num):
                 #structural springs
