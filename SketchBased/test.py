@@ -5,15 +5,17 @@ import math
 #OPTIMIZE UNNECESSARY VARIABLES
 #drawn curve plus spans = num of joints, should be input
 inp_spans=6
-res=3
+#this controls fidelity to shape of curve
+res=10
 spans=inp_spans*res
 
 cmds.rebuildCurve('curve1', rt=0, s=spans)
 #array of points on curve
 #eps=['curve1.ep[0]','curve1.ep[1]','curve1.ep[2]','curve1.ep[3]','curve1.ep[4]','curve1.ep[5]','curve1.ep[6]']
-cmds.createNode('curveInfo')
-cmds.connectAttr('curveShape1.worldSpace','curveInfo1.inputCurve')
-eps=cmds.getAttr('curveInfo1.ep[*]')
+eps=[]
+for j in range(spans):
+    prop='curve1.ep['+str(j)+']'
+    eps.append(prop)
 
 #array of joints
 
@@ -26,8 +28,8 @@ for i in range(len(joints)-1):
     
     joint_vec=end_pos-root_pos
     #end pts of corresponding curve span
-    span_start_pos=om.MVector(cmds.xform(eps[i], ws=1, t=1, q=1))
-    span_end_pos=om.MVector(cmds.xform(eps[i+3], ws=1, t=1, q=1))
+    span_start_pos=om.MVector(cmds.xform(eps[i*res], ws=1, t=1, q=1))
+    span_end_pos=om.MVector(cmds.xform(eps[(i*res)+1], ws=1, t=1, q=1))
     
     span_vec=span_end_pos-span_start_pos
     
