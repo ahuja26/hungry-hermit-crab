@@ -2,11 +2,12 @@ import maya.cmds as cmds
 import maya.api.OpenMaya as om
 import math
 
-#OPTIMIZE UNNECESSARY VARIABLES
-#drawn curve plus spans = num of joints, should be input
+#array of joints
+joints=cmds.ls(sl=True,dag=True,ap=True,type="joint")
+
 inp_spans=6
 #this controls fidelity to shape of curve
-res=10
+res=1
 spans=inp_spans*res
 
 cmds.rebuildCurve('curve1', rt=0, s=spans)
@@ -17,11 +18,8 @@ for j in range(spans):
     prop='curve1.ep['+str(j)+']'
     eps.append(prop)
 
-#array of joints
 
-joints=['joint1','joint2','joint3','joint5','joint6','joint7']
-
-for i in range(len(joints)-1):
+for i in range(len(joints)-2):
     #end pts of curr bone
     root_pos=om.MVector(cmds.xform(joints[i], ws=1, t=1, q=1))
     end_pos=om.MVector(cmds.xform(joints[i+1], ws=1, t=1, q=1))
