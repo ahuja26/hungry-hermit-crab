@@ -50,14 +50,16 @@ class sketchBasedUI(base_class,form_class):
     def __init__(self, parent=mayaMainWindow()):
         super(sketchBasedUI, self).__init__(parent)
         self.setupUi(self)
-        self.setObjectName('sketchBasedUi')
+        self.setObjectName('sketchBasedUI')
+        self.create()
+        self.show()
 
     def connectInterface(self, dataObj):
         ##ui signals to slots connection here
-        self.btn_select_chain.clicked.connect()
-        self.btn_draw_curve.clicked.connect()
-        self.btn_select_curve.clicked.connect()
-        self.btn_go.clicked.connect()
+        self.btn_select_chain.clicked.connect(dataObj.getSelectedJoints)
+        self.btn_draw_curve.clicked.connect(dataObj.drawCurve)
+        self.btn_select_curve.clicked.connect(dataObj.getDrawnCurve)
+        self.btn_go.clicked.connect(dataObj.computePose)
 
     def create(self):
         self.setWindowTitle('Sketch Based Posing')
@@ -68,15 +70,15 @@ class sketchBasedUI(base_class,form_class):
 if __name__ == "__main__":
 
     try:
-        #modelingTools_ui.deleteLater()
+        sketchBasedUI.deleteLater()
     except:
         pass
 
-    #mtui = modelingToolsClass()
+    sbui = sketchBasedUI()
 
     try:
-        #mtui.createConnections()
-        #mtui.show()
+        sbui.create()
+        sbui.show()
     except:
-        #mtui.deleteLater()
+        sbui.deleteLater()
         traceback.print_exc()
