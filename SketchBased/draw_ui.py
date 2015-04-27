@@ -1,6 +1,5 @@
 __author__ = 'rachinaahuja'
 
-
 import pysideuic
 import traceback
 import xml.etree.ElementTree as xml
@@ -51,21 +50,22 @@ class sketchBasedUI(base_class,form_class):
         super(sketchBasedUI, self).__init__(parent)
         self.setupUi(self)
         self.setObjectName('sketchBasedUI')
+        self.dataObj=SketchPose()
         self.create()
         self.show()
 
-    def connectInterface(self, dataObj):
+    def connectInterface(self):
         ##ui signals to slots connection here
-        self.btn_select_chain.clicked.connect(dataObj.getSelectedJoints)
-        self.btn_draw_curve.clicked.connect(dataObj.drawCurve)
-        self.btn_select_curve.clicked.connect(dataObj.getDrawnCurve)
-        self.btn_go.clicked.connect(dataObj.computePose)
+        self.btn_select_chain.clicked.connect(self.dataObj.getSelectedJoints)
+        self.btn_draw_curve.clicked.connect(self.dataObj.drawCurve)
+        self.btn_select_curve.clicked.connect(self.dataObj.getDrawnCurve)
+        self.btn_go.clicked.connect(self.dataObj.computePose)
+        self.slider_res.valueChanged.connect(self.dataObj.setRes)
 
     def create(self):
         self.setWindowTitle('Sketch Based Posing')
         #create object for data
-        dataObj=SketchPose()
-        self.connectInterface(dataObj)
+        self.connectInterface()
 
 if __name__ == "__main__":
 

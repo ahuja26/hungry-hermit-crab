@@ -15,10 +15,16 @@ class SketchPose():
 
     def getSelectedJoints(self):
         self.joints=cmds.ls(sl=True,dag=True,ap=True,type="joint")
+        print("got selected joints")
+        print(self.joints)
+        #set spans acc
 
-    def getDrawnCurve(self, inp_curve):
+
+    def getDrawnCurve(self):
         #have user select it for now
-        self.curve=inp_curve
+        selected_curve=cmds.listRelatives(cmds.ls(sl=True, dag=True, type='nurbsCurve'), parent=True)
+        self.curve=selected_curve[0]
+        print(self.curve)
 
     def drawCurve(self):
         cmds.setToolTo(cmds.curveSketchCtx( degree=3 ))
@@ -29,16 +35,19 @@ class SketchPose():
 
     def setRes(self, res):
         self.res=res
+        print(self.res)
 
     def computePose(self):
+        self.spans=(len(self.joints)-1)*self.res
+        print(self.spans)
         cmds.rebuildCurve(self.curve, rt=0, s=self.spans)
         #array of points on curve
         #eps=['curve1.ep[0]','curve1.ep[1]','curve1.ep[2]','curve1.ep[3]','curve1.ep[4]','curve1.ep[5]','curve1.ep[6]']
         eps=[]
         for j in range(self.spans):
-            prop='curve1.ep['+str(j)+']'
+            prop=self.curve+'.ep['+str(j)+']'
+            print(prop)
             eps.append(prop)
-
 
         for i in range(len(self.joints)-2):
             #end pts of curr bone
@@ -48,6 +57,7 @@ class SketchPose():
             joint_vec=end_pos-root_pos
             #end pts of corresponding curve span
             span_start_pos=om.MVector(cmds.xform(eps[i*self.res], ws=1, t=1, q=1))
+            print(span_start_pos)
             span_end_pos=om.MVector(cmds.xform(eps[(i*self.res)+1], ws=1, t=1, q=1))
 
             span_vec=span_end_pos-span_start_pos
