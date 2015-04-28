@@ -55,7 +55,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Shape Fidelity:</string>
+     <string>Shape:</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_draw_curve">
@@ -110,10 +110,10 @@
      <string>Select Joint Chain</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_select_curve_2">
+   <widget class="QPushButton" name="btn_key">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>190</x>
       <y>230</y>
       <width>101</width>
       <height>23</height>
@@ -149,10 +149,10 @@
      <string>KEYFRAMING TOOLS</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_select_curve_3">
+   <widget class="QPushButton" name="btn_select_hi">
     <property name="geometry">
      <rect>
-      <x>120</x>
+      <x>10</x>
       <y>230</y>
       <width>101</width>
       <height>23</height>

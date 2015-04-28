@@ -37,6 +37,12 @@ class SketchPose():
         self.res=res
         print(self.res)
 
+    def setKey(self):
+        cmds.setKeyframe(at='rotateZ')
+
+    def selectHierarchy(self):
+        cmds.select(hi=True)
+
     def computePose(self):
         self.spans=(len(self.joints)-1)*self.res
         print(self.spans)

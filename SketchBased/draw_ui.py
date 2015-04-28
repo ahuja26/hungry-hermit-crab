@@ -61,6 +61,8 @@ class sketchBasedUI(base_class,form_class):
         self.btn_select_curve.clicked.connect(self.dataObj.getDrawnCurve)
         self.btn_go.clicked.connect(self.dataObj.computePose)
         self.slider_res.valueChanged.connect(self.dataObj.setRes)
+        self.btn_key.clicked.connect(self.dataObj.setKey)
+        self.btn_select_hi.clicked.connect(self.dataObj.selectHierarchy)
 
     def create(self):
         self.setWindowTitle('Sketch Based Posing')
